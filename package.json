@@ -1,0 +1,17 @@
+{
+  "name": "hearthstone-checklist",
+  "version": "0.0.1",
+  "description": "A checklist app for your Hearthstone collection.",
+  "main": "main.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jdgarcia/hearthstone-checklist"
+  },
+  "dependencies": {
+    "express": "^4.13.3",
+    "serve-static": "^1.10.0"
+  },
+  "author": "Jose Garcia",
+  "email": "garciajd90@gmail.com",
+  "license": "ISC"
+}
