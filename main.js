@@ -1,7 +1,7 @@
 var express = require('express');
 var serveStatic = require('serve-static');
 
-var serve = serveStatic('src', {
+var serve = serveStatic('build', {
   'index': ['index.html']
 });
 var app = express();
