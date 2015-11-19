@@ -10,7 +10,5 @@ npm install -g browserify
 
 ## Building
 ```
-ncp src build
-babel --presets react src --out-dir build
-browserify build\index.js -o build\bundle.js
+npm run build
 ```

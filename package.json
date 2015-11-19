@@ -11,6 +11,12 @@
     "react": "^0.14.2",
     "react-dom": "^0.14.2"
   },
+  "scripts": {
+    "copy": "ncp src build",
+    "compile-react": "babel --presets react src --out-file build/compiled-react.js",
+    "browserify": "browserify build/compiled-react.js -o build/bundle.js",
+    "build": "npm run copy && npm run compile-react && npm run browserify"
+  },
   "author": "Jose Garcia",
   "email": "garciajd90@gmail.com",
   "license": "ISC"
