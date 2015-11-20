@@ -9,13 +9,15 @@
   "dependencies": {
     "babel-preset-react": "^6.1.18",
     "react": "^0.14.2",
-    "react-dom": "^0.14.2"
+    "react-dom": "^0.14.2",
+    "rimraf": "^2.4.4"
   },
   "scripts": {
     "copy": "ncp src build",
     "compile-react": "babel --presets react src --out-dir build",
     "browserify": "browserify build/index.js -o build/bundle.js",
-    "build": "npm run copy && npm run compile-react && npm run browserify"
+    "clean-jsx": "./node_modules/.bin/rimraf build/**/*.jsx",
+    "build": "npm run copy && npm run compile-react && npm run browserify && npm run clean-jsx"
   },
   "author": "Jose Garcia",
   "email": "garciajd90@gmail.com",
