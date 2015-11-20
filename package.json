@@ -8,16 +8,17 @@
   },
   "dependencies": {
     "babel-preset-react": "^6.1.18",
+    "browserify": "^12.0.1",
     "ncp": "^2.0.0",
     "react": "^0.14.2",
     "react-dom": "^0.14.2",
     "rimraf": "^2.4.4"
   },
   "scripts": {
-    "copy": "./node_modules/.bin/ncp src build",
+    "copy": "ncp src build",
     "compile-react": "babel --presets react src --out-dir build",
     "browserify": "browserify build/index.js -o build/bundle.js",
-    "clean-jsx": "./node_modules/.bin/rimraf build/**/*.jsx",
+    "clean-jsx": "rimraf build/**/*.jsx",
     "build": "npm run copy && npm run compile-react && npm run browserify && npm run clean-jsx"
   },
   "author": "Jose Garcia",
