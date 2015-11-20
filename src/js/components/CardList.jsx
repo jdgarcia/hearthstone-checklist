@@ -1,6 +1,6 @@
 var React = require('react');
 
-var AllSets = require('../AllSets');
+var AllSets = require('../../static/AllSets');
 
 var Card = require('./Card');
 
