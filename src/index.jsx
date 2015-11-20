@@ -2,11 +2,10 @@ document.addEventListener('DOMContentLoaded', function () {
   var React = require('react');
   var ReactDOM = require('react-dom');
 
-  var AllSets = require('./AllSets');
-  console.log(AllSets);
+  var App = require('./components/App');
 
   ReactDOM.render(
-    <h1>Hearthstone Checklist</h1>,
+    <App />,
     document.getElementById('app')
   );
 });

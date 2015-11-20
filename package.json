@@ -13,8 +13,8 @@
   },
   "scripts": {
     "copy": "ncp src build",
-    "compile-react": "babel --presets react src --out-file build/compiled-react.js",
-    "browserify": "browserify build/compiled-react.js -o build/bundle.js",
+    "compile-react": "babel --presets react src --out-dir build",
+    "browserify": "browserify build/index.js -o build/bundle.js",
     "build": "npm run copy && npm run compile-react && npm run browserify"
   },
   "author": "Jose Garcia",
