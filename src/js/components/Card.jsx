@@ -1,10 +1,6 @@
 var React = require('react');
 
 var Card = React.createClass({
-  propTypes: {
-    name: React.PropTypes.string
-  },
-
   getInitialState: function() {
     return {
       count: Number(localStorage.getItem(this.props.id))
