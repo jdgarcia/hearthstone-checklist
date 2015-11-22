@@ -34,9 +34,9 @@ var Card = React.createClass({
         <td>{card.cost}</td>
         <td>{card.name}</td>
         <td>{card.set}</td>
+        <td><button disabled={this.state.count < 1} onClick={this._subtractOne}>-1</button></td>
         <td>{this.state.count}</td>
-        <td><button onClick={this._addOne}>+1</button></td>
-        <td><button onClick={this._subtractOne}>-1</button></td>
+        <td><button disabled={this.state.count > 1} onClick={this._addOne}>+1</button></td>
       </tr>
     );
   }
