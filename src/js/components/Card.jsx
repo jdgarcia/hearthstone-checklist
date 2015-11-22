@@ -7,7 +7,7 @@ var Card = React.createClass({
 
   getInitialState: function() {
     return {
-      count: localStorage.getItem(this.props.id) || 0
+      count: Number(localStorage.getItem(this.props.id))
     };
   },
 
