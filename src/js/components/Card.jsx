@@ -15,23 +15,20 @@ var Card = React.createClass({
   },
 
   _addOne: function() {
-    if (this.state.count < 2) {
-      this._setCount(this.state.count + 1);
-    }
+    this._setCount(this.state.count + 1);
   },
 
   _subtractOne: function() {
-    if (this.state.count > 0) {
-      this._setCount(this.state.count - 1);
-    }
+    this._setCount(this.state.count - 1);
   },
 
   render: function() {
     var card = this.props.card;
     var count = this.state.count;
+    var isComplete = count > 1 || (card.rarity === 'Legendary' && count > 0);
 
     var classes = "card " + card.playerClass;
-    if (count > 1) {
+    if (isComplete) {
       classes += " complete";
     }
 
@@ -43,7 +40,7 @@ var Card = React.createClass({
         <td>{card.rarity}</td>
         <td><button disabled={count < 1} onClick={this._subtractOne}>-1</button></td>
         <td>{count}</td>
-        <td><button disabled={count > 1} onClick={this._addOne}>+1</button></td>
+        <td><button disabled={isComplete} onClick={this._addOne}>+1</button></td>
       </tr>
     );
   }
