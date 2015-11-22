@@ -1,6 +1,11 @@
 var React = require('react');
 
 var AllSets = require('../../static/AllSets');
+Object.keys(AllSets).forEach(function(setName) {
+  AllSets[setName].forEach(function(item) {
+    item.set = setName;
+  });
+});
 
 var Card = require('./Card');
 
@@ -48,13 +53,7 @@ var CardList = React.createClass({
       })
       .map(function(card) {
         return (
-          <Card
-            cost={card.cost}
-            key={card.id}
-            id={card.id}
-            name={card.name}
-            playerClass={card.playerClass}
-            />
+          <Card card={card} key={card.id} />
         );
       });
 
@@ -65,6 +64,7 @@ var CardList = React.createClass({
           <option value="name">Name</option>
           <option value="cost">Cost</option>
           <option value="playerClass">Class</option>
+          <option value="set">Set</option>
         </select>
         <table>
           <tbody>
