@@ -15,7 +15,7 @@
     "rimraf": "^2.4.4"
   },
   "scripts": {
-    "copy": "mkdir build && ncp src/static build/static",
+    "copy": "rimraf build && mkdir build && ncp src/static build/static",
     "compile-react": "babel --presets react src/js --out-dir build/js",
     "browserify": "browserify build/js/index.js -o build/js/bundle.js",
     "clean-jsx": "rimraf build/js/**/*.jsx",

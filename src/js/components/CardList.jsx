@@ -14,15 +14,18 @@ var CardList = React.createClass({
         return (
           <Card
             key={card.id}
+            id={card.id}
             name={card.name}
             />
         );
       });
 
     return (
-      <ul>
-        {cards}
-      </ul>
+      <table>
+        <tbody>
+          {cards}
+        </tbody>
+      </table>
     );
   }
 });
