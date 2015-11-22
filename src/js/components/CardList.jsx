@@ -4,6 +4,9 @@ var AllSets = require('../../static/AllSets');
 Object.keys(AllSets).forEach(function(setName) {
   AllSets[setName].forEach(function(item) {
     item.set = setName;
+    if (!item.playerClass) {
+      item.playerClass = 'Neutral';
+    }
   });
 });
 

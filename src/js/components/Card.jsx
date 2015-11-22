@@ -32,13 +32,9 @@ var Card = React.createClass({
 
   render: function() {
     var card = this.props.card;
-    var classes = "card";
-    if (card.playerClass) {
-      classes += (" " + card.playerClass);
-    }
 
     return (
-      <tr className={classes}>
+      <tr className={"card " + card.playerClass}>
         <td>{card.cost}</td>
         <td>{card.name}</td>
         <td>{card.set}</td>
