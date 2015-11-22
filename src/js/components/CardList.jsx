@@ -13,6 +13,7 @@ var CardList = React.createClass({
       .map(function(card) {
         return (
           <Card
+            cost={card.cost}
             key={card.id}
             id={card.id}
             name={card.name}

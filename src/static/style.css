@@ -2,47 +2,47 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.card.Druid td:first-child {
+.card.Druid {
   background-color: #864E1F;
   color: white;
 }
 
-.card.Hunter td:first-child {
+.card.Hunter {
   background-color: green;
   color: white;
 }
 
-.card.Mage td:first-child {
+.card.Mage {
   background-color: #00B8FF;
   color: white;
 }
 
-.card.Paladin td:first-child {
+.card.Paladin {
   background-color: #DAAB00;
   color: white;
 }
 
-.card.Priest td:first-child {
+.card.Priest {
   background-color: #E889F9;
   color: white;
 }
 
-.card.Rogue td:first-child {
+.card.Rogue {
   background-color: #333333;
   color: white;
 }
 
-.card.Shaman td:first-child {
+.card.Shaman {
   background-color: #3930BF;
   color: white;
 }
 
-.card.Warlock td:first-child {
+.card.Warlock {
   background-color: #600080;
   color: white;
 }
 
-.card.Warrior td:first-child {
+.card.Warrior {
   background-color: #922107;
   color: white;
 }

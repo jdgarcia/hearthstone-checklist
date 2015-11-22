@@ -38,6 +38,7 @@ var Card = React.createClass({
 
     return (
       <tr className={classes}>
+        <td>{this.props.cost}</td>
         <td>{this.props.name}</td>
         <td>{this.state.count}</td>
         <td><button onClick={this._addOne}>+1</button></td>
