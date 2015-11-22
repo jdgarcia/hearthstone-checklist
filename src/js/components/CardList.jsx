@@ -1,9 +1,18 @@
 var React = require('react');
 
+var RarityEnum = {
+  'Free': 0,
+  'Common': 1,
+  'Rare': 2,
+  'Epic': 3,
+  'Legendary': 4
+};
+
 var AllSets = require('../../static/AllSets');
 Object.keys(AllSets).forEach(function(setName) {
   AllSets[setName].forEach(function(item) {
     item.set = setName;
+    item.rarity_ordered = RarityEnum[item.rarity];
     if (!item.playerClass) {
       item.playerClass = 'Neutral';
     }
