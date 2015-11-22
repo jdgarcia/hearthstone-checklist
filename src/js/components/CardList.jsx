@@ -11,6 +11,7 @@ Object.keys(AllSets).forEach(function(setName) {
 });
 
 var Card = require('./Card');
+var SortDropdown = require('./SortDropdown');
 
 var CardList = React.createClass({
   getInitialState: function() {
@@ -103,27 +104,9 @@ var CardList = React.createClass({
 
     return (
       <div>
-        Primary Sort:
-        <select defaultValue={this.state.sortByPrimary} onChange={this._sortByPrimary}>
-          <option value="name">Name</option>
-          <option value="cost">Cost</option>
-          <option value="playerClass">Class</option>
-          <option value="set">Set</option>
-        </select>
-        Secondary Sort:
-        <select defaultValue={this.state.sortBySecondary} onChange={this._sortBySecondary}>
-          <option value="name">Name</option>
-          <option value="cost">Cost</option>
-          <option value="playerClass">Class</option>
-          <option value="set">Set</option>
-        </select>
-        Tertiary Sort:
-        <select defaultValue={this.state.sortByTertiary} onChange={this._sortByTertiary}>
-          <option value="name">Name</option>
-          <option value="cost">Cost</option>
-          <option value="playerClass">Class</option>
-          <option value="set">Set</option>
-        </select>
+        <SortDropdown label="Primary Sort" defaultValue={this.state.sortByPrimary} onChange={this._sortByPrimary} />
+        <SortDropdown label="Secondary Sort" defaultValue={this.state.sortBySecondary} onChange={this._sortBySecondary} />
+        <SortDropdown label="Tertiary Sort" defaultValue={this.state.sortByTertiary} onChange={this._sortByTertiary} />
         <table>
           <tbody>
             {cards}
