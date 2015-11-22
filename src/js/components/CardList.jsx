@@ -22,7 +22,15 @@ var CardList = React.createClass({
 
   render: function render() {
     var sortBy = this.state.sortBy;
-    var cards = AllSets.Basic
+    var cards = AllSets['Basic']
+      .concat(AllSets['Classic'])
+      .concat(AllSets['Reward'])
+      .concat(AllSets['Promotion'])
+      .concat(AllSets['Curse of Naxxramas'])
+      .concat(AllSets['Goblins vs Gnomes'])
+      .concat(AllSets['Blackrock Mountain'])
+      .concat(AllSets['The Grand Tournament'])
+      .concat(AllSets['League of Explorers'])
       .filter(function(card) {
         return !!card.collectible && card.type !== 'Hero';
       })
