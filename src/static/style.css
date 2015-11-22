@@ -2,6 +2,10 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.card.complete {
+  opacity: 0.5;
+}
+
 .card.Druid {
   background-color: #864E1F;
   color: white;

@@ -28,15 +28,21 @@ var Card = React.createClass({
 
   render: function() {
     var card = this.props.card;
+    var count = this.state.count;
+
+    var classes = "card " + card.playerClass;
+    if (count > 1) {
+      classes += " complete";
+    }
 
     return (
-      <tr className={"card " + card.playerClass}>
+      <tr className={classes}>
         <td>{card.cost}</td>
         <td>{card.name}</td>
         <td>{card.set}</td>
-        <td><button disabled={this.state.count < 1} onClick={this._subtractOne}>-1</button></td>
-        <td>{this.state.count}</td>
-        <td><button disabled={this.state.count > 1} onClick={this._addOne}>+1</button></td>
+        <td><button disabled={count < 1} onClick={this._subtractOne}>-1</button></td>
+        <td>{count}</td>
+        <td><button disabled={count > 1} onClick={this._addOne}>+1</button></td>
       </tr>
     );
   }
