@@ -31,8 +31,13 @@ var Card = React.createClass({
   },
 
   render: function() {
+    var classes = "card";
+    if (this.props.playerClass) {
+      classes += (" " + this.props.playerClass);
+    }
+
     return (
-      <tr>
+      <tr className={classes}>
         <td>{this.props.name}</td>
         <td>{this.state.count}</td>
         <td><button onClick={this._addOne}>+1</button></td>

@@ -16,6 +16,7 @@ var CardList = React.createClass({
             key={card.id}
             id={card.id}
             name={card.name}
+            playerClass={card.playerClass}
             />
         );
       });
