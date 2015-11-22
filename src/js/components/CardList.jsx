@@ -5,10 +5,38 @@ var AllSets = require('../../static/AllSets');
 var Card = require('./Card');
 
 var CardList = React.createClass({
+  getInitialState: function() {
+    return {
+      sortBy: 'name'
+    };
+  },
+
+  _sortBy: function(event) {
+    var newValue = event.target.value;
+    if (newValue) {
+      this.setState({
+        sortBy: newValue
+      });
+    }
+  },
+
   render: function render() {
+    var sortBy = this.state.sortBy;
     var cards = AllSets.Basic
       .filter(function(card) {
         return !!card.collectible && card.type !== 'Hero';
+      })
+      .sort(function(cardA, cardB) {
+        var aValue = cardA[sortBy];
+        var bValue = cardB[sortBy];
+
+        if (aValue < bValue) {
+          return -1;
+        } else if (aValue > bValue) {
+          return 1;
+        }
+
+        return 0;
       })
       .map(function(card) {
         return (
@@ -23,11 +51,19 @@ var CardList = React.createClass({
       });
 
     return (
-      <table>
-        <tbody>
-          {cards}
-        </tbody>
-      </table>
+      <div>
+        Sort:
+        <select defaultValue="name" onChange={this._sortBy}>
+          <option value="name">Name</option>
+          <option value="cost">Cost</option>
+          <option value="playerClass">Class</option>
+        </select>
+        <table>
+          <tbody>
+            {cards}
+          </tbody>
+        </table>
+      </div>
     );
   }
 });
