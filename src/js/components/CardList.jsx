@@ -8,7 +8,7 @@ var CardList = React.createClass({
   render: function render() {
     var cards = AllSets.Basic
       .filter(function(card) {
-        return !!card.collectible;
+        return !!card.collectible && card.type !== 'Hero';
       })
       .map(function(card) {
         return (
