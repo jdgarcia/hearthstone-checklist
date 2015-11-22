@@ -3,12 +3,12 @@ var React = require('react');
 var Card = React.createClass({
   getInitialState: function() {
     return {
-      count: Number(localStorage.getItem(this.props.id))
+      count: Number(localStorage.getItem(this.props.card.id))
     };
   },
 
   _setCount: function(count) {
-    localStorage.setItem(this.props.id, count);
+    localStorage.setItem(this.props.card.id, count);
     this.setState({
       count: count
     });
