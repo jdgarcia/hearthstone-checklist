@@ -7,6 +7,7 @@ var Options = {
     { label: 'Class', value: 'playerClass' }
   ],
   'sort': [
+    { label: 'None', value: '' },
     { label: 'Name', value: 'name' },
     { label: 'Class', value: 'playerClass' },
     { label: 'Cost', value: 'cost' },
