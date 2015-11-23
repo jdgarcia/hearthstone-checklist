@@ -64,87 +64,65 @@ var CardList = React.createClass({
   },
 
   _setSortPrimary: function(event) {
-    var newValue = event.target.value;
-    if (newValue) {
-      this.setState({
-        sortByPrimary: newValue
-      });
-    }
+    this.setState({
+      sortPrimary: event.target.value || ''
+    });
   },
 
   _setSortSecondary: function(event) {
-    var newValue = event.target.value;
-    if (newValue) {
-      this.setState({
-        sortBySecondary: newValue
-      });
-    }
+    this.setState({
+      sortSecondary: event.target.value || ''
+    });
   },
 
   _setSortTertiary: function(event) {
-    var newValue = event.target.value;
-    if (newValue) {
-      this.setState({
-        sortByTertiary: newValue
-      });
-    }
+    this.setState({
+      sortTertiary: event.target.value || ''
+    });
   },
 
   render: function render() {
-    var sortByPrimary = this.state.sortByPrimary;
-    var sortBySecondary = this.state.sortBySecondary;
-    var sortByTertiary = this.state.sortByTertiary;
-
-    var sortedCards = AllCards
-      .sort(function(cardA, cardB) {
-        var a1 = cardA[sortByPrimary];
-        var b1 = cardB[sortByPrimary];
-
-        if (a1 < b1) {
-          return -1;
-        } else if (a1 > b1) {
-          return 1;
-        } else {
-          var a2 = cardA[sortBySecondary];
-          var b2 = cardB[sortBySecondary];
-
-          if (a2 < b2) {
-            return -1;
-          } else if (a2 > b2) {
-            return 1;
-          } else {
-            var a3 = cardA[sortByTertiary];
-            var b3 = cardB[sortByTertiary];
-
-            if (a3 < b3) {
-              return -1;
-            } else if (a3 > b3) {
-              return 1;
-            }
-          }
-        }
-
-        return 0;
-      });
-
     var cardGroups;
-    if (this.state.groupBy) {
-      cardGroups = _(sortedCards)
-        .groupBy(this.state.groupBy)
+
+    var groupBy = this.state.groupBy;
+    var sortPrimary = this.state.sortPrimary;
+    var sortSecondary = this.state.sortSecondary;
+    var sortTertiary = this.state.sortTertiary;
+
+    if (groupBy) {
+      cardGroups = _(AllCards)
+        .groupBy(groupBy)
         .map(function(group, groupName) {
-          return (<CardGroup key={groupName} groupName={groupName} cards={group} />);
+          return {
+            groupName: groupName,
+            cards: group
+          };
         })
+        .sortBy('groupName')
         .value();
     } else {
-      cardGroups = (<CardGroup groupName="All Cards" cards={sortedCards} />);
+      cardGroups = [
+        {
+          groupName: 'All Cards',
+          cards: AllCards
+        }
+      ];
     }
+
+    _.forEach(cardGroups, function(group) {
+      group.cards = _.sortByAll(group.cards, [sortPrimary, sortSecondary, sortTertiary]);
+    });
+
+    cardGroups = _.map(cardGroups, function(group) {
+      return (<CardGroup groupName={group.groupName} key={group.groupName} cards={group.cards} />);
+    });
 
     return (
       <div>
         <CardOrganizeDropdown type="group" label="Group By" defaultValue={this.state.groupBy} onChange={this._setGroupBy} />
-        <CardOrganizeDropdown type="sort" label="Primary Sort" defaultValue={this.state.sortByPrimary} onChange={this._setSortPrimary} />
-        <CardOrganizeDropdown type="sort" label="Secondary Sort" defaultValue={this.state.sortBySecondary} onChange={this._setSortSecondary} />
-        <CardOrganizeDropdown type="sort" label="Tertiary Sort" defaultValue={this.state.sortByTertiary} onChange={this._setSortTertiary} />
+        <CardOrganizeDropdown type="sort" label="Primary Sort" defaultValue={this.state.sortPrimary} onChange={this._setSortPrimary} />
+        <CardOrganizeDropdown type="sort" label="Secondary Sort" defaultValue={this.state.sortSecondary} onChange={this._setSortSecondary} />
+        <CardOrganizeDropdown type="sort" label="Tertiary Sort" defaultValue={this.state.sortTertiary} onChange={this._setSortTertiary} />
         {cardGroups}
       </div>
     );
