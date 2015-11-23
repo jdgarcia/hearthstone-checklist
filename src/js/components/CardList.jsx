@@ -37,19 +37,26 @@ var AllCards = _(AllSets)
   })
   .value();
 
-var Card = require('./Card');
-var SortDropdown = require('./SortDropdown');
+var CardOrganizeDropdown = require('./CardOrganizeDropdown');
+var CardGroup = require('./CardGroup');
 
 var CardList = React.createClass({
   getInitialState: function() {
     return {
+      groupBy: '',
       sortByPrimary: 'playerClass',
       sortBySecondary: 'cost',
       sortByTertiary: 'name'
     };
   },
 
-  _sortByPrimary: function(event) {
+  _setGroupBy: function(event) {
+    this.setState({
+      groupBy: event.target.value || ''
+    });
+  },
+
+  _setSortPrimary: function(event) {
     var newValue = event.target.value;
     if (newValue) {
       this.setState({
@@ -58,7 +65,7 @@ var CardList = React.createClass({
     }
   },
 
-  _sortBySecondary: function(event) {
+  _setSortSecondary: function(event) {
     var newValue = event.target.value;
     if (newValue) {
       this.setState({
@@ -67,7 +74,7 @@ var CardList = React.createClass({
     }
   },
 
-  _sortByTertiary: function(event) {
+  _setSortTertiary: function(event) {
     var newValue = event.target.value;
     if (newValue) {
       this.setState({
@@ -81,7 +88,7 @@ var CardList = React.createClass({
     var sortBySecondary = this.state.sortBySecondary;
     var sortByTertiary = this.state.sortByTertiary;
 
-    var cards = AllCards
+    var sortedCards = AllCards
       .sort(function(cardA, cardB) {
         var a1 = cardA[sortByPrimary];
         var b1 = cardB[sortByPrimary];
@@ -111,23 +118,27 @@ var CardList = React.createClass({
         }
 
         return 0;
-      })
-      .map(function(card) {
-        return (
-          <Card card={card} key={card.id} />
-        );
       });
+
+    var cardGroups;
+    if (this.state.groupBy) {
+      cardGroups = _(sortedCards)
+        .groupBy(this.state.groupBy)
+        .map(function(group, groupName) {
+          return (<CardGroup key={groupName} groupName={groupName} cards={group} />);
+        })
+        .value();
+    } else {
+      cardGroups = (<CardGroup groupName="All Cards" cards={sortedCards} />);
+    }
 
     return (
       <div>
-        <SortDropdown label="Primary Sort" defaultValue={this.state.sortByPrimary} onChange={this._sortByPrimary} />
-        <SortDropdown label="Secondary Sort" defaultValue={this.state.sortBySecondary} onChange={this._sortBySecondary} />
-        <SortDropdown label="Tertiary Sort" defaultValue={this.state.sortByTertiary} onChange={this._sortByTertiary} />
-        <table>
-          <tbody>
-            {cards}
-          </tbody>
-        </table>
+        <CardOrganizeDropdown type="group" label="Group By" defaultValue={this.state.groupBy} onChange={this._setGroupBy} />
+        <CardOrganizeDropdown type="sort" label="Primary Sort" defaultValue={this.state.sortByPrimary} onChange={this._setSortPrimary} />
+        <CardOrganizeDropdown type="sort" label="Secondary Sort" defaultValue={this.state.sortBySecondary} onChange={this._setSortSecondary} />
+        <CardOrganizeDropdown type="sort" label="Tertiary Sort" defaultValue={this.state.sortByTertiary} onChange={this._setSortTertiary} />
+        {cardGroups}
       </div>
     );
   }
