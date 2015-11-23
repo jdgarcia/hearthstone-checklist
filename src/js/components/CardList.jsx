@@ -50,10 +50,10 @@ var CardGroup = require('./CardGroup');
 var CardList = React.createClass({
   getInitialState: function() {
     return {
-      groupBy: '',
-      sortByPrimary: 'playerClass',
-      sortBySecondary: 'cost',
-      sortByTertiary: 'name'
+      groupBy: 'playerClass',
+      sortPrimary: 'cost',
+      sortSecondary: 'type_order',
+      sortTertiary: 'name'
     };
   },
 
