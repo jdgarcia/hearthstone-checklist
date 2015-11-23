@@ -1,12 +1,18 @@
 var React = require('react');
 var _ = require('lodash');
 
-var RarityEnum = {
+var RarityOrder = {
   'Free': 0,
   'Common': 1,
   'Rare': 2,
   'Epic': 3,
   'Legendary': 4
+};
+
+var TypeOrder = {
+  'Weapon': 0,
+  'Spell': 1,
+  'Minion': 2
 };
 
 var AllSets = require('../../static/AllSets');
@@ -22,7 +28,8 @@ delete AllSets['Tavern Brawl'];
 _.keys(AllSets).forEach(function(setName) {
   AllSets[setName] = _.forEach(AllSets[setName], function(item) {
     item.set = setName;
-    item.rarity_ordered = RarityEnum[item.rarity];
+    item.rarity_order = RarityOrder[item.rarity];
+    item.type_order = TypeOrder[item.type];
     if (!item.playerClass) {
       item.playerClass = 'Neutral';
     }

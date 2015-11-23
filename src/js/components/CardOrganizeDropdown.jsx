@@ -11,7 +11,8 @@ var Options = {
     { label: 'Class', value: 'playerClass' },
     { label: 'Cost', value: 'cost' },
     { label: 'Set', value: 'set' },
-    { label: 'Rarity', value: 'rarity_ordered' }
+    { label: 'Type', value: 'type_order' },
+    { label: 'Rarity', value: 'rarity_order' }
   ]
 };
 
