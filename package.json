@@ -15,11 +15,12 @@
     "rimraf": "^2.4.4"
   },
   "scripts": {
-    "copy": "rimraf build && mkdir build && ncp src/static build/static",
-    "compile-react": "babel --presets react src/js --out-dir build/js",
+    "setup-build": "rimraf build && mkdir build",
+    "copy-static": "ncp src/static build/static",
+    "compile-jsx": "babel --presets react src/js --out-dir build/js",
     "browserify": "browserify build/js/index.js -o build/js/bundle.js",
     "clean-jsx": "rimraf build/js/**/*.jsx",
-    "build": "npm run copy && npm run compile-react && npm run browserify && npm run clean-jsx"
+    "build": "npm run setup-build && npm run copy-static && npm run compile-jsx && npm run browserify && npm run clean-jsx"
   },
   "author": "Jose Garcia",
   "email": "garciajd90@gmail.com",
