@@ -1,4 +1,5 @@
 var React = require('react');
+var _ = require('lodash');
 
 var RarityEnum = {
   'Free': 0,
@@ -9,8 +10,17 @@ var RarityEnum = {
 };
 
 var AllSets = require('../../static/AllSets');
-Object.keys(AllSets).forEach(function(setName) {
-  AllSets[setName].forEach(function(item) {
+// Delete non-card sets
+delete AllSets['Credits'];
+delete AllSets['Debug'];
+delete AllSets['Hero Skins'];
+delete AllSets['Missions'];
+delete AllSets['System'];
+delete AllSets['Tavern Brawl'];
+
+// Attach set, ordered rarity, and 'Neutral' class to cards
+_.keys(AllSets).forEach(function(setName) {
+  AllSets[setName] = _.forEach(AllSets[setName], function(item) {
     item.set = setName;
     item.rarity_ordered = RarityEnum[item.rarity];
     if (!item.playerClass) {
@@ -18,6 +28,14 @@ Object.keys(AllSets).forEach(function(setName) {
     }
   });
 });
+
+var AllCards = _(AllSets)
+  .map()
+  .flatten()
+  .filter(function(card) {
+    return !!card.collectible && card.type !== 'Hero';
+  })
+  .value();
 
 var Card = require('./Card');
 var SortDropdown = require('./SortDropdown');
@@ -63,18 +81,7 @@ var CardList = React.createClass({
     var sortBySecondary = this.state.sortBySecondary;
     var sortByTertiary = this.state.sortByTertiary;
 
-    var cards = AllSets['Basic']
-      .concat(AllSets['Classic'])
-      .concat(AllSets['Reward'])
-      .concat(AllSets['Promotion'])
-      .concat(AllSets['Curse of Naxxramas'])
-      .concat(AllSets['Goblins vs Gnomes'])
-      .concat(AllSets['Blackrock Mountain'])
-      .concat(AllSets['The Grand Tournament'])
-      .concat(AllSets['League of Explorers'])
-      .filter(function(card) {
-        return !!card.collectible && card.type !== 'Hero';
-      })
+    var cards = AllCards
       .sort(function(cardA, cardB) {
         var a1 = cardA[sortByPrimary];
         var b1 = cardB[sortByPrimary];
