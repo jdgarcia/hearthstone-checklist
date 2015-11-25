@@ -1,6 +1,19 @@
 var React = require('react');
 var _ = require('lodash');
 
+var ClassOrder = {
+  'Druid': 0,
+  'Hunter': 1,
+  'Mage': 2,
+  'Paladin': 3,
+  'Priest': 4,
+  'Rogue': 5,
+  'Shaman': 6,
+  'Warlock': 7,
+  'Warrior': 8,
+  'Neutral': 9
+};
+
 var RarityOrder = {
   'Free': 0,
   'Common': 1,
@@ -93,12 +106,20 @@ var CardList = React.createClass({
       cardGroups = _(AllCards)
         .groupBy(groupBy)
         .map(function(group, groupName) {
+          var groupOrder;
+          if (groupBy === 'playerClass') {
+            groupOrder = ClassOrder[groupName];
+          } else {
+            groupOrder = groupName;
+          }
+
           return {
             groupName: groupName,
+            groupOrder: groupOrder,
             cards: group
           };
         })
-        .sortBy('groupName')
+        .sortBy('groupOrder')
         .value();
     } else {
       cardGroups = [
