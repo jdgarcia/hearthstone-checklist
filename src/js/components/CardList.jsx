@@ -1,12 +1,31 @@
 var React = require('react');
 var _ = require('lodash');
 
-var RarityEnum = {
+var ClassOrder = {
+  'Druid': 0,
+  'Hunter': 1,
+  'Mage': 2,
+  'Paladin': 3,
+  'Priest': 4,
+  'Rogue': 5,
+  'Shaman': 6,
+  'Warlock': 7,
+  'Warrior': 8,
+  'Neutral': 9
+};
+
+var RarityOrder = {
   'Free': 0,
   'Common': 1,
   'Rare': 2,
   'Epic': 3,
   'Legendary': 4
+};
+
+var TypeOrder = {
+  'Weapon': 0,
+  'Spell': 1,
+  'Minion': 2
 };
 
 var AllSets = require('../../static/AllSets');
@@ -22,7 +41,8 @@ delete AllSets['Tavern Brawl'];
 _.keys(AllSets).forEach(function(setName) {
   AllSets[setName] = _.forEach(AllSets[setName], function(item) {
     item.set = setName;
-    item.rarity_ordered = RarityEnum[item.rarity];
+    item.rarity_order = RarityOrder[item.rarity];
+    item.type_order = TypeOrder[item.type];
     if (!item.playerClass) {
       item.playerClass = 'Neutral';
     }
@@ -37,97 +57,94 @@ var AllCards = _(AllSets)
   })
   .value();
 
-var Card = require('./Card');
-var SortDropdown = require('./SortDropdown');
+var CardOrganizeDropdown = require('./CardOrganizeDropdown');
+var CardGroup = require('./CardGroup');
 
 var CardList = React.createClass({
   getInitialState: function() {
     return {
-      sortByPrimary: 'playerClass',
-      sortBySecondary: 'cost',
-      sortByTertiary: 'name'
+      groupBy: 'playerClass',
+      sortPrimary: 'cost',
+      sortSecondary: 'type_order',
+      sortTertiary: 'name'
     };
   },
 
-  _sortByPrimary: function(event) {
-    var newValue = event.target.value;
-    if (newValue) {
-      this.setState({
-        sortByPrimary: newValue
-      });
-    }
+  _setGroupBy: function(event) {
+    this.setState({
+      groupBy: event.target.value || ''
+    });
   },
 
-  _sortBySecondary: function(event) {
-    var newValue = event.target.value;
-    if (newValue) {
-      this.setState({
-        sortBySecondary: newValue
-      });
-    }
+  _setSortPrimary: function(event) {
+    this.setState({
+      sortPrimary: event.target.value || ''
+    });
   },
 
-  _sortByTertiary: function(event) {
-    var newValue = event.target.value;
-    if (newValue) {
-      this.setState({
-        sortByTertiary: newValue
-      });
-    }
+  _setSortSecondary: function(event) {
+    this.setState({
+      sortSecondary: event.target.value || ''
+    });
+  },
+
+  _setSortTertiary: function(event) {
+    this.setState({
+      sortTertiary: event.target.value || ''
+    });
   },
 
   render: function render() {
-    var sortByPrimary = this.state.sortByPrimary;
-    var sortBySecondary = this.state.sortBySecondary;
-    var sortByTertiary = this.state.sortByTertiary;
+    var cardGroups;
 
-    var cards = AllCards
-      .sort(function(cardA, cardB) {
-        var a1 = cardA[sortByPrimary];
-        var b1 = cardB[sortByPrimary];
+    var groupBy = this.state.groupBy;
+    var sortPrimary = this.state.sortPrimary;
+    var sortSecondary = this.state.sortSecondary;
+    var sortTertiary = this.state.sortTertiary;
 
-        if (a1 < b1) {
-          return -1;
-        } else if (a1 > b1) {
-          return 1;
-        } else {
-          var a2 = cardA[sortBySecondary];
-          var b2 = cardB[sortBySecondary];
-
-          if (a2 < b2) {
-            return -1;
-          } else if (a2 > b2) {
-            return 1;
+    if (groupBy) {
+      cardGroups = _(AllCards)
+        .groupBy(groupBy)
+        .map(function(group, groupName) {
+          var groupOrder;
+          if (groupBy === 'playerClass') {
+            groupOrder = ClassOrder[groupName];
           } else {
-            var a3 = cardA[sortByTertiary];
-            var b3 = cardB[sortByTertiary];
-
-            if (a3 < b3) {
-              return -1;
-            } else if (a3 > b3) {
-              return 1;
-            }
+            groupOrder = groupName;
           }
-        }
 
-        return 0;
-      })
-      .map(function(card) {
-        return (
-          <Card card={card} key={card.id} />
-        );
-      });
+          return {
+            groupName: groupName,
+            groupOrder: groupOrder,
+            cards: group
+          };
+        })
+        .sortBy('groupOrder')
+        .value();
+    } else {
+      cardGroups = [
+        {
+          groupName: 'All Cards',
+          cards: AllCards
+        }
+      ];
+    }
+
+    _.forEach(cardGroups, function(group) {
+      group.cards = _.sortByAll(group.cards, [sortPrimary, sortSecondary, sortTertiary]);
+    });
+
+    cardGroups = _.map(cardGroups, function(group) {
+      return (<CardGroup groupName={group.groupName} key={group.groupName} cards={group.cards} />);
+    });
 
     return (
       <div>
-        <SortDropdown label="Primary Sort" defaultValue={this.state.sortByPrimary} onChange={this._sortByPrimary} />
-        <SortDropdown label="Secondary Sort" defaultValue={this.state.sortBySecondary} onChange={this._sortBySecondary} />
-        <SortDropdown label="Tertiary Sort" defaultValue={this.state.sortByTertiary} onChange={this._sortByTertiary} />
-        <table>
-          <tbody>
-            {cards}
-          </tbody>
-        </table>
+        <CardOrganizeDropdown type="group" label="Group By" defaultValue={this.state.groupBy} onChange={this._setGroupBy} />
+        <CardOrganizeDropdown type="sort" label="Primary Sort" defaultValue={this.state.sortPrimary} onChange={this._setSortPrimary} />
+        <CardOrganizeDropdown type="sort" label="Secondary Sort" defaultValue={this.state.sortSecondary} onChange={this._setSortSecondary} />
+        <CardOrganizeDropdown type="sort" label="Tertiary Sort" defaultValue={this.state.sortTertiary} onChange={this._setSortTertiary} />
+        {cardGroups}
       </div>
     );
   }
