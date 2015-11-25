@@ -1,19 +1,13 @@
 var EventEmitter = require('events');
-var util = require('util');
+var objectAssign = require('object-assign');
 
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 
-function CardStore() {
-  EventEmitter.call(this);
-}
-
-util.inherits(CardStore, EventEmitter);
-
-var cardStoreInstance = new CardStore();
+var CardStore = {};
 
 var dispatchCallback = function(action) {
 };
 
-cardStoreInstance.dispatchToken = AppDispatcher.register(dispatchCallback);
+CardStore.dispatchToken = AppDispatcher.register(dispatchCallback);
 
-module.exports = cardStoreInstance;
+module.exports = objectAssign({}, EventEmitter.prototype, CardStore);
