@@ -1,6 +1,7 @@
 var React = require('react');
 
 var CardActions = require('../actions/CardActions');
+var CardUtils = require('../utils/CardUtils');
 
 var Card = React.createClass({
   _addOne: function() {
@@ -13,7 +14,7 @@ var Card = React.createClass({
 
   render: function() {
     var card = this.props.card;
-    var isComplete = card.owned > 1 || (card.rarity === 'Legendary' && card.owned > 0);
+    var isComplete = CardUtils.isComplete(card);
 
     var classes = "card " + card.playerClass;
     if (isComplete) {

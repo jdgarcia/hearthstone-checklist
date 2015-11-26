@@ -6,6 +6,7 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 
 var CardConstants = require('../constants/CardConstants');
 var OrderConstants = require('../constants/OrderConstants');
+var CardUtils = require('../utils/CardUtils');
 
 var AllSets = require('../../static/AllSets');
 // Delete non-card sets
@@ -67,7 +68,7 @@ var dispatchCallback = function(action) {
       var cardId = action.cardId;
       var card = _cardMap[action.cardId];
 
-      if ((card.rarity === 'Legendary' && card.owned < 1) || card.owned < 2) {
+      if (!CardUtils.isComplete(card)) {
         var newOwned = card.owned + 1;
 
         localStorage.setItem(cardId, newOwned);
