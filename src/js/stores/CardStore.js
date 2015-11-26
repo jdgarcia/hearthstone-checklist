@@ -33,6 +33,7 @@ var _cards = _(AllSets)
   .flatten()
   .filter(function(card) {
     if (!!card.collectible && card.type !== 'Hero') {
+      card.owned = Number(localStorage.getItem(card.id));
       _cardMap[card.id] = card;
       return true;
     }
@@ -42,7 +43,7 @@ var _cards = _(AllSets)
 var CardStore = {
   getAllCards: function() {
     return _cards;
-  },
+  }
 };
 
 var dispatchCallback = function(action) {
