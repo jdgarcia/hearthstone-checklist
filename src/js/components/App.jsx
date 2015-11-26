@@ -10,11 +10,26 @@ var CardGroup = require('./CardGroup');
 var CardList = React.createClass({
   getInitialState: function() {
     return {
+      allCards: CardStore.getAllCards(),
       groupBy: 'playerClass',
       sortPrimary: 'cost',
       sortSecondary: 'type_order',
       sortTertiary: 'name'
     };
+  },
+
+  componentDidMount: function() {
+    CardStore.addChangeListener(this._onCardChange);
+  },
+
+  componentWillUnmount: function() {
+    CardStore.removeChangeListener(this._onCardChange);
+  },
+
+  _onCardChange: function() {
+    this.setState({
+      allCards: CardStore.getAllCards()
+    });
   },
 
   _setGroupBy: function(event) {
@@ -49,7 +64,7 @@ var CardList = React.createClass({
     var sortSecondary = this.state.sortSecondary;
     var sortTertiary = this.state.sortTertiary;
 
-    var allCards = CardStore.getAllCards();
+    var allCards = this.state.allCards;
 
     if (groupBy) {
       cardGroups = _(allCards)

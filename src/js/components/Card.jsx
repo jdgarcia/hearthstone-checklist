@@ -1,19 +1,14 @@
 var React = require('react');
 
-var Card = React.createClass({
-  _setCount: function(count) {
-    localStorage.setItem(this.props.card.id, count);
-    this.setState({
-      count: count
-    });
-  },
+var CardActions = require('../actions/CardActions');
 
+var Card = React.createClass({
   _addOne: function() {
-    this._setCount(this.state.count + 1);
+    CardActions.addOne(this.props.card.id);
   },
 
   _subtractOne: function() {
-    this._setCount(this.state.count - 1);
+    CardActions.subtractOne(this.props.card.id);
   },
 
   render: function() {

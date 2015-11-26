@@ -4,6 +4,7 @@ var _ = require('lodash');
 
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 
+var CardConstants = require('../constants/CardConstants');
 var OrderConstants = require('../constants/OrderConstants');
 
 var AllSets = require('../../static/AllSets');
@@ -40,15 +41,62 @@ var _cards = _(AllSets)
   })
   .value();
 
-var CardStore = {
+var CardStore = {};
+
+var storeProps = {
   getAllCards: function() {
     return _cards;
+  },
+
+  addChangeListener: function(callback) {
+    CardStore.on(CardConstants.events.CHANGE, callback);
+  },
+
+  removeChangeListener: function(callback) {
+    CardStore.removeListener(CardConstants.events.CHANGE, callback);
+  },
+
+  emitChange: function() {
+    CardStore.emit(CardConstants.events.CHANGE);
   }
 };
 
 var dispatchCallback = function(action) {
+  switch(action.type) {
+    case CardConstants.actions.ADD_ONE:
+      var cardId = action.cardId;
+      var card = _cardMap[action.cardId];
+
+      if ((card.rarity === 'Legendary' && card.owned < 1) || card.owned < 2) {
+        var newOwned = card.owned + 1;
+
+        localStorage.setItem(cardId, newOwned);
+        card.owned = newOwned;
+
+        CardStore.emitChange();
+        return true;
+      }
+      break;
+
+    case CardConstants.actions.SUBTRACT_ONE:
+      var cardId = action.cardId;
+      var card = _cardMap[action.cardId];
+
+      if (card.owned > 0) {
+        var newOwned = card.owned - 1;
+
+        localStorage.setItem(cardId, newOwned);
+        card.owned = newOwned;
+
+        CardStore.emitChange();
+        return true;
+      }
+      break;
+  }
+
+  return false;
 };
 
 CardStore.dispatchToken = AppDispatcher.register(dispatchCallback);
 
-module.exports = objectAssign({}, EventEmitter.prototype, CardStore);
+module.exports = objectAssign(CardStore, EventEmitter.prototype, storeProps);
