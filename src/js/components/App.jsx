@@ -71,10 +71,17 @@ var CardList = React.createClass({
         .groupBy(groupBy)
         .map(function(group, groupName) {
           var groupOrder;
-          if (groupBy === 'playerClass') {
+
+          switch (groupBy) {
+          case 'playerClass':
             groupOrder = OrderConstants.Class[groupName];
-          } else {
+            break;
+          case 'set':
+            groupOrder = OrderConstants.Set[groupName];
+            break;
+          default:
             groupOrder = groupName;
+            break;
           }
 
           return {

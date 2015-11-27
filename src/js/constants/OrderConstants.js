@@ -20,6 +20,18 @@ var OrderConstants = {
     'Legendary': 4
   },
 
+  Set: {
+    'Basic': 0,
+    'Classic': 1,
+    'Reward': 2,
+    'Promotion': 3,
+    'Curse of Naxxramas': 4,
+    'Goblins vs Gnomes': 5,
+    'Blackrock Mountain': 6,
+    'The Grand Tournament': 7,
+    'League of Explorers': 8
+  },
+
   Type: {
     'Weapon': 0,
     'Spell': 1,

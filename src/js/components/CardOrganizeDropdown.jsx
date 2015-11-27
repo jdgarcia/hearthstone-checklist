@@ -4,7 +4,8 @@ var _ = require('lodash');
 var Options = {
   'group': [
     { label: 'None', value: '' },
-    { label: 'Class', value: 'playerClass' }
+    { label: 'Class', value: 'playerClass' },
+    { label: 'Set', value: 'set' }
   ],
   'sort': [
     { label: 'None', value: '' },
