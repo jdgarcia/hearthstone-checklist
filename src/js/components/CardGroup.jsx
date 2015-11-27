@@ -5,8 +5,21 @@ var OrderConstants = require('../constants/OrderConstants');
 var Card = require('./Card');
 
 var CardGroup = React.createClass({
+  getInitialState: function() {
+    return {
+      collapsed: false
+    };
+  },
+
+  _toggleCollapsed: function() {
+    this.setState({
+      collapsed: !this.state.collapsed
+    });
+  },
+
   render: function() {
     var groupName = this.props.groupName;
+    var collapsed = this.state.collapsed;
 
     var rarities = ['All'].concat(_.keys(OrderConstants.Rarity));
     var stats = {};
@@ -37,11 +50,16 @@ var CardGroup = React.createClass({
       );
     });
 
+    var tableClasses = 'group-table';
+    if (collapsed) {
+      tableClasses += ' collapsed';
+    }
+
     return (
       <div>
-        <h2>{groupName}</h2>
+        <h2>{groupName} <button onClick={this._toggleCollapsed}>{collapsed ? 'Show' : 'Hide'}</button></h2>
         {rarityStats}
-        <table>
+        <table className={tableClasses}>
           <tbody>
             {cards}
           </tbody>

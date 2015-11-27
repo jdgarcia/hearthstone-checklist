@@ -2,6 +2,10 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.group-table.collapsed {
+  display: none;
+}
+
 .card.complete {
   opacity: 0.5;
 }
