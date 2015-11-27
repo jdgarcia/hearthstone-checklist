@@ -9,6 +9,7 @@
   "dependencies": {
     "babel-preset-react": "^6.1.18",
     "browserify": "^12.0.1",
+    "eslint": "^1.10.1",
     "flux": "^2.1.1",
     "lodash": "^3.10.1",
     "ncp": "^2.0.0",
@@ -18,12 +19,13 @@
     "rimraf": "^2.4.4"
   },
   "scripts": {
+    "lint": "eslint src",
     "setup-build": "rimraf build && mkdir build",
     "copy-static": "ncp src/static build/static",
     "compile-jsx": "babel --presets react src/js --out-dir build/js",
     "browserify": "browserify build/js/index.js -o build/js/bundle.js",
     "clean-jsx": "rimraf build/js/**/*.jsx",
-    "build": "npm run setup-build && npm run copy-static && npm run compile-jsx && npm run browserify && npm run clean-jsx"
+    "build": "npm run lint && npm run setup-build && npm run copy-static && npm run compile-jsx && npm run browserify && npm run clean-jsx"
   },
   "author": "Jose Garcia",
   "email": "garciajd90@gmail.com",
