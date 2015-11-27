@@ -36,6 +36,7 @@ var _cards = _(AllSets)
   .filter(function(card) {
     if (!!card.collectible && card.type !== 'Hero') {
       card.owned = Number(localStorage.getItem(card.id));
+      card.target = card.rarity === 'Legendary' ? 1 : 2;
       _cardMap[card.id] = card;
       return true;
     }

@@ -5,7 +5,11 @@ var Card = require('./Card');
 
 var CardGroup = React.createClass({
   render: function() {
+    var total = 0;
+    var owned = 0;
     var cards = _.map(this.props.cards, function(card) {
+      total += card.target;
+      owned += card.owned;
       return (
         <Card card={card} key={card.id} />
       );
@@ -13,7 +17,7 @@ var CardGroup = React.createClass({
 
     return (
       <div>
-        {this.props.groupName}
+        {this.props.groupName} {owned}/{total} ({Math.round(owned/total*100)}%)
         <table>
           <tbody>
             {cards}
