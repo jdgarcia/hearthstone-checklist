@@ -62,37 +62,49 @@ var storeProps = {
   }
 };
 
+function addOne(cardId) {
+  var card = _cardMap[cardId];
+  if (!CardUtils.isComplete(card)) {
+    var newOwned = card.owned + 1;
+
+    localStorage.setItem(cardId, newOwned);
+    card.owned = newOwned;
+
+    return true;
+  }
+
+  return false;
+}
+
+function subtractOne(cardId) {
+  var card = _cardMap[cardId];
+  if (card.owned > 0) {
+    var newOwned = card.owned - 1;
+
+    localStorage.setItem(cardId, newOwned);
+    card.owned = newOwned;
+
+    return true;
+  }
+
+  return false;
+}
+
 var dispatchCallback = function(action) {
   switch(action.type) {
-    case CardConstants.actions.ADD_ONE:
-      var cardId = action.cardId;
-      var card = _cardMap[action.cardId];
+  case CardConstants.actions.ADD_ONE:
+    if (addOne(action.cardId)) {
+      CardStore.emitChange();
+      return true;
+    }
+    break;
 
-      if (!CardUtils.isComplete(card)) {
-        var newOwned = card.owned + 1;
-
-        localStorage.setItem(cardId, newOwned);
-        card.owned = newOwned;
-
-        CardStore.emitChange();
-        return true;
-      }
-      break;
-
-    case CardConstants.actions.SUBTRACT_ONE:
-      var cardId = action.cardId;
-      var card = _cardMap[action.cardId];
-
-      if (card.owned > 0) {
-        var newOwned = card.owned - 1;
-
-        localStorage.setItem(cardId, newOwned);
-        card.owned = newOwned;
-
-        CardStore.emitChange();
-        return true;
-      }
-      break;
+  case CardConstants.actions.SUBTRACT_ONE:
+    if (subtractOne(action.cardId)) {
+      CardStore.emitChange();
+      return true;
+    }
+    break;
   }
 
   return false;
